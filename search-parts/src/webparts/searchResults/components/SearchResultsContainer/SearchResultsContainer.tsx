@@ -33,20 +33,17 @@ const DEFAULT_IMAGE_CONTENT = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOs
 export default class SearchResultsContainer extends React.Component<ISearchResultsContainerProps, ISearchResultsContainerState> {
 
     private _searchWpRef: HTMLElement;
+    private _defaultSortingValues: {
+        sortDirection: SortDirection;
+        sortField: string;
+    };
 
     public constructor(props: ISearchResultsContainerProps) {
         super(props);
 
-        let sortField = null;
-        let sortDirection = null;
-        if (this.props.sortList.length > 0
-          && this.props.sortableFields.length > 0
-          && this.props.sortList[0].sortField === this.props.sortableFields[0].sortField) {
-            sortField = this.props.sortList[0].sortField;
-            sortDirection = this.props.sortList[0].sortDirection === ISortFieldDirection.Ascending
-              ? SortDirection.Ascending : SortDirection.Descending;
-        }
-
+        //get default sortField & sortDirection from the sortList & sortableFields
+        this._defaultSortingValues = this._getDefaultSortingValues();
+      
         // Set the initial state
         this.state = {
             results: {
@@ -58,8 +55,8 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
             areResultsLoading: false,
             errorMessage: '',
             hasError: false,
-            sortField: sortField,
-            sortDirection: sortDirection,
+            sortField: this._defaultSortingValues.sortField,
+            sortDirection: this._defaultSortingValues.sortDirection,
             mountingNodeId: `pnp-search-render-node-${this.getGUID()}`,
         };
 
@@ -265,7 +262,9 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
 
         let executeSearch = false;
         let isPageUpdated = false;
+        let resetSorting = false;
         let selectedPage = this.props.selectedPage || 1;
+        
 
         // New props are passed to the component when the search query has been changed
         if (!isEqual(this.props, prevProps)) {
@@ -284,6 +283,8 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
                 this.props.searchService.refinementFilters = [];
                 // Reset page selection
                 selectedPage = 1;
+                // Flag to reset sorting later when execute search
+                resetSorting = true;
             }
 
             if (selectedPage  !== prevProps.selectedPage) {
@@ -292,7 +293,6 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
         }
 
         if (executeSearch) {
-
             // Don't perform search is there is no keywords
             if (this.props.queryKeywords) {
                 try {
@@ -312,7 +312,10 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
 
                     this.setState({
                         results: searchResults,
-                        areResultsLoading: false
+                        areResultsLoading: false,
+                        //reset sorting if needed
+                        ...(resetSorting) && {sortDirection: this._defaultSortingValues.sortDirection},
+                        ...(resetSorting) && {sortField: this._defaultSortingValues.sortField}
                     });
 
                     this.handleResultUpdateBroadCast(searchResults);
@@ -686,6 +689,25 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
 
         } else {
             return rawResults;
+        }
+    }
+
+    /**
+     * Retrieves SortField & SortDirection of the first item in the sortList which also is the first item in the sortableFields
+     */
+    private _getDefaultSortingValues(){
+        let sortField = null;
+        let sortDirection = null;
+        if (this.props.sortList.length > 0
+          && this.props.sortableFields.length > 0
+          && this.props.sortList[0].sortField === this.props.sortableFields[0].sortField) {
+            sortField = this.props.sortList[0].sortField;
+            sortDirection = this.props.sortList[0].sortDirection === ISortFieldDirection.Ascending
+              ? SortDirection.Ascending : SortDirection.Descending;
+        }
+        return {
+            sortField: sortField,
+            sortDirection: sortDirection
         }
     }
 
