@@ -4,7 +4,7 @@ import { DisplayMode } from '@microsoft/sp-core-library';
 import { TemplateService } from '../../../../services/TemplateService/TemplateService';
 import ISortableFieldConfiguration from '../../../../models/ISortableFieldConfiguration';
 import { ISearchResultType } from '../../../../models/ISearchResultType';
-import {ICustomTemplateFieldValue} from '../../../../services/ResultService/ResultService';
+import { ICustomTemplateFieldValue } from '../../../../services/ResultService/ResultService';
 import SearchResultsOperationCallback from '../../../../models/SearchResultsOperationCallback';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import ResultsLayoutOption from '../../../../models/ResultsLayoutOption';
@@ -71,7 +71,7 @@ interface ISearchResultsContainerProps {
     /**
      * Template parameters from Web Part property pane
      */
-    templateParameters: { [key:string]: any };
+    templateParameters: { [key: string]: any };
 
     /**
      * The site server relative url for the current Site
@@ -102,7 +102,7 @@ interface ISearchResultsContainerProps {
      * The data passing service for custom action renderers
      */
     useCodeRenderer: boolean;
-    customTemplateFieldValues:  ICustomTemplateFieldValue[];
+    customTemplateFieldValues: ICustomTemplateFieldValue[];
 
     /**
      * Web Parts localized strings
@@ -143,6 +143,11 @@ interface ISearchResultsContainerProps {
      * The Web Part instance id
      */
     instanceId: string;
+
+    /**
+     * The Selected Vertical Tab Name
+     */
+    verticalTabName: string;
 }
 
 export default ISearchResultsContainerProps;
