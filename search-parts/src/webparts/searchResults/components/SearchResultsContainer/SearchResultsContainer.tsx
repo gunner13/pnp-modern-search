@@ -176,7 +176,8 @@ export default class SearchResultsContainer extends React.Component<ISearchResul
                 spellingSuggestion: items.SpellingSuggestion,
                 utils: {
                     defaultImage: DEFAULT_IMAGE_CONTENT
-                }
+                },
+                verticalTabName: this.props.verticalTabName
             };
 
             // Merge with property pane template parameters

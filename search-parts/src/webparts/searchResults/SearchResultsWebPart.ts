@@ -195,6 +195,7 @@ export default class SearchResultsWebPart extends BaseClientSideWebPart<ISearchR
         let selectedFilters: IRefinementFilter[] = [];
         let queryTemplate: string = this.properties.queryTemplate;
         let sourceId: string = this.properties.resultSourceId;
+        let verticalTabName: string = null;
         let getVerticalsCounts: boolean = false;
 
         // Get default selected refiners from the URL
@@ -225,6 +226,7 @@ export default class SearchResultsWebPart extends BaseClientSideWebPart<ISearchR
                 if (searchVerticalSourceData.selectedVertical) {
                     queryTemplate = searchVerticalSourceData.selectedVertical.queryTemplate;
                     sourceId = searchVerticalSourceData.selectedVertical.resultSourceId;
+                    verticalTabName = searchVerticalSourceData.selectedVertical.tabName;
                     getVerticalsCounts = searchVerticalSourceData.showCounts;
                 }
             }
@@ -276,6 +278,7 @@ export default class SearchResultsWebPart extends BaseClientSideWebPart<ISearchR
                 enableLocalization: this.properties.enableLocalization,
                 selectedPage: this.currentPageNumber,
                 selectedLayout: this.properties.selectedLayout,
+                verticalTabName: verticalTabName,
                 onSearchResultsUpdate: async (results, mountingNodeId, searchService) => {
                     if (this.properties.selectedLayout in ResultsLayoutOption) {
                         let node = document.getElementById(mountingNodeId);

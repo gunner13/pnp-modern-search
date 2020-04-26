@@ -15,7 +15,7 @@
                     <label class="ms-fontWeight-semibold">{{getCountMessage @root.paging.totalItemsCount keywords}}</label>
                 </div>
             {{/if}}
-            <pnp-details-list items="{{JSONstringify items}}" columns-configuration="{{JSONstringify detailsListColumns}}" show-file-icon="{{@root.showFileIcon}}" is-compact="{{@root.isCompact}}"></pnp-details-list>
+            <pnp-details-list items="{{JSONstringify items}}" columns-configuration="{{JSONstringify detailsListColumns}}" show-file-icon="{{@root.showFileIcon}}" is-compact="{{@root.isCompact}}" vertical-tab-name="{{@root.verticalTabName}}"></pnp-details-list>
             {{#if @root.paging.showPaging}}
                 <pnp-pagination 
                     total-items="{{@root.paging.totalItemsCount}}" 
@@ -47,7 +47,7 @@
                 <span class="shimmer line" style="width: 20%"></span>
             </div>
         {{/if}}
-        <pnp-details-list columns-configuration="{{JSONstringify @root.detailsListColumns}}" show-file-icon="{{@root.showFileIcon}}" is-compact="{{@root.isCompact}}" show-shimmers="true"></pnp-details-list>
+        <pnp-details-list columns-configuration="{{JSONstringify @root.detailsListColumns}}" show-file-icon="{{@root.showFileIcon}}" is-compact="{{@root.isCompact}}" vertical-tab-name="{{@root.verticalTabName}}" show-shimmers="true"></pnp-details-list>
     </div>
 
 </content>
